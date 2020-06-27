@@ -1,0 +1,41 @@
+apply plugin: 'java'
+apply plugin: 'application'
+apply plugin: 'com.github.johnrengelman.shadow'
+
+sourceCompatibility = 1.8
+mainClassName = "ch.taburett.tichu.JerseyApplication"
+
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'com.github.jengelman.gradle.plugins:shadow:2.0.1'
+    }
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    compile "org.slf4j:slf4j-api:${slf4jVersion}"
+    compile "org.slf4j:slf4j-simple:${slf4jVersion}"
+
+    compile "io.swagger.core.v3:swagger-jaxrs2:2.1.1"
+
+    compile "org.eclipse.jetty:jetty-server:${jettyVersion}"
+    compile "org.eclipse.jetty:jetty-servlet:${jettyVersion}"
+
+    compile "org.glassfish.jersey.core:jersey-server:${jerseyVersion}"
+    compile "org.glassfish.jersey.containers:jersey-container-servlet-core:${jerseyVersion}"
+    compile "org.glassfish.jersey.containers:jersey-container-jetty-http:${jerseyVersion}"
+    compile "org.glassfish.jersey.media:jersey-media-json-jackson:${jerseyVersion}"
+    compile "org.glassfish.jersey.inject:jersey-hk2:${jerseyVersion}"
+
+    runtime "javax.activation:javax.activation-api:+"
+    runtime "jakarta.xml.bind:jakarta.xml.bind-api:2.3.2"
+    runtime "org.glassfish.jaxb:jaxb-runtime:2.3.2"
+}
