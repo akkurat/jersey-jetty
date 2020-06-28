@@ -4,12 +4,10 @@ import ch.taburett.tichu.models.Room;
 import com.thedeanda.lorem.Lorem;
 import com.thedeanda.lorem.LoremIpsum;
 
-import javax.validation.constraints.Null;
 import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 public class RoomService {
@@ -18,7 +16,7 @@ public class RoomService {
         for( int i=0; i<5; i++ ) {
             Lorem l = LoremIpsum.getInstance();
             create( l.getFirstName() + " "
-                    + l.getCity() + " " + l.getWords(1));
+                    + l.getCity() + " " + l.getWords(1), i+2);
         }
     }
 
@@ -30,9 +28,9 @@ public class RoomService {
         return true;
     }
 
-    public Room create( String roomCaption )
+    public Room create( String roomCaption, int i )
     {
-        Room room = new Room(roomCaption);
+        Room room = new Room(roomCaption, i);
         rooms.put( room.getUuid(), room );
         return room;
     }
@@ -50,10 +48,11 @@ public class RoomService {
     }
 
     public Room delete(String uuid) {
-        Room room = rooms.get( uuid );
+        UUID obj = UUID.fromString(uuid);
+        Room room = rooms.get( obj );
         if( room != null )
         {
-            rooms.remove( uuid );
+            rooms.remove( obj );
             return room;
         }
         return null;

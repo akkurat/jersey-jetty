@@ -1,12 +1,13 @@
-
 <div *ngFor="let room of rooms">
-<h1>{{room.caption}}</h1>
-<span>{{room.timeCreated|date}}</span>
-<button (click)="remove(room.uuid)">X</button>
+  <h1>{{room.caption}}</h1>
+  <div>{{room.timeCreated|date}}</div>
+  <div>{{room.players}}</div>
+  <button (click)="remove(room.uuid)">X</button>
 
 </div>
 
 <div>
-  <input (value)="updateValue(ev)" />
-  <button (click)="submit()" >New Room! </button>
+  <input [(ngModel)]="newRoom.caption" />
+  <input type="number" [(ngModel)]="newRoom.players" />
+  <button (click)="submit()">New Room!</button>
 </div>

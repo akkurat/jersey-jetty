@@ -17,6 +17,7 @@ import { HttpClient, HttpHeaders, HttpParams,
 import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
+import { Room } from '../model/models';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
@@ -26,7 +27,7 @@ import { Configuration }                                     from '../configurat
 @Injectable({
   providedIn: 'root'
 })
-export class DefaultService {
+export class RoomService {
 
     protected basePath = 'http://localhost:8080';
     public defaultHeaders = new HttpHeaders();
@@ -85,16 +86,16 @@ export class DefaultService {
     }
 
     /**
-     * @param path 
+     * @param uuid 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getExternalGrammar(path: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/xml'}): Observable<any>;
-    public getExternalGrammar(path: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/xml'}): Observable<HttpResponse<any>>;
-    public getExternalGrammar(path: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/xml'}): Observable<HttpEvent<any>>;
-    public getExternalGrammar(path: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/xml'}): Observable<any> {
-        if (path === null || path === undefined) {
-            throw new Error('Required parameter path was null or undefined when calling getExternalGrammar.');
+    public _delete(uuid: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<Room>;
+    public _delete(uuid: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<Room>>;
+    public _delete(uuid: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<Room>>;
+    public _delete(uuid: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
+        if (uuid === null || uuid === undefined) {
+            throw new Error('Required parameter uuid was null or undefined when calling _delete.');
         }
 
         let headers = this.defaultHeaders;
@@ -103,7 +104,7 @@ export class DefaultService {
         if (httpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
             const httpHeaderAccepts: string[] = [
-                'application/xml'
+                'application/json'
             ];
             httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         }
@@ -117,7 +118,58 @@ export class DefaultService {
             responseType = 'text';
         }
 
-        return this.httpClient.get<any>(`${this.configuration.basePath}/api/application.wadl/${encodeURIComponent(String(path))}`,
+        return this.httpClient.delete<Room>(`${this.configuration.basePath}/api/room/${encodeURIComponent(String(uuid))}`,
+            {
+                responseType: <any>responseType,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * @param room 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public createRoom(room?: Room, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<Room>;
+    public createRoom(room?: Room, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<Room>>;
+    public createRoom(room?: Room, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<Room>>;
+    public createRoom(room?: Room, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
+
+        let headers = this.defaultHeaders;
+
+        let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (httpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+                'application/json'
+            ];
+            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
+        if (httpHeaderAcceptSelected !== undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected !== undefined) {
+            headers = headers.set('Content-Type', httpContentTypeSelected);
+        }
+
+        let responseType: 'text' | 'json' = 'json';
+        if(httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
+            responseType = 'text';
+        }
+
+        return this.httpClient.post<Room>(`${this.configuration.basePath}/api/room`,
+            room,
             {
                 responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
@@ -132,10 +184,10 @@ export class DefaultService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getWadl(observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/vnd.sun.wadl+xml' | 'application/xml'}): Observable<any>;
-    public getWadl(observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/vnd.sun.wadl+xml' | 'application/xml'}): Observable<HttpResponse<any>>;
-    public getWadl(observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/vnd.sun.wadl+xml' | 'application/xml'}): Observable<HttpEvent<any>>;
-    public getWadl(observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/vnd.sun.wadl+xml' | 'application/xml'}): Observable<any> {
+    public getRooms(observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<Array<Room>>;
+    public getRooms(observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<Array<Room>>>;
+    public getRooms(observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<Array<Room>>>;
+    public getRooms(observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
 
         let headers = this.defaultHeaders;
 
@@ -143,8 +195,7 @@ export class DefaultService {
         if (httpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
             const httpHeaderAccepts: string[] = [
-                'application/vnd.sun.wadl+xml',
-                'application/xml'
+                'application/json'
             ];
             httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         }
@@ -158,7 +209,7 @@ export class DefaultService {
             responseType = 'text';
         }
 
-        return this.httpClient.get<any>(`${this.configuration.basePath}/api/application.wadl`,
+        return this.httpClient.get<Array<Room>>(`${this.configuration.basePath}/api/room`,
             {
                 responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,

@@ -4,6 +4,8 @@ import { HttpClient } from '@angular/common/http';
 
 
 import { DefaultService } from './api/default.service';
+import { GreetingService } from './api/greeting.service';
+import { RoomService } from './api/room.service';
 
 @NgModule({
   imports:      [],

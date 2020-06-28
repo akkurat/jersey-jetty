@@ -15,5 +15,6 @@ export interface Room {
     timeCreated?: string;
     caption?: string;
     uuid?: string;
+    players?: number;
 }
 
