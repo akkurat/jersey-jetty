@@ -3,7 +3,7 @@ apply plugin: 'application'
 apply plugin: 'com.github.johnrengelman.shadow'
 
 sourceCompatibility = 1.8
-mainClassName = "ch.taburett.tichu.JerseyApplication"
+mainClassName = "ch.taburett.tichu.JettyJerseyServer"
 
 
 buildscript {
@@ -21,6 +21,11 @@ repositories {
 }
 
 dependencies {
+    
+    // https://mvnrepository.com/artifact/com.google.guava/guava
+    compile group: 'com.google.guava', name: 'guava', version: '29.0-jre'
+
+
     compile "org.slf4j:slf4j-api:${slf4jVersion}"
     compile "org.slf4j:slf4j-simple:${slf4jVersion}"
 
@@ -28,6 +33,7 @@ dependencies {
 
     compile "org.eclipse.jetty:jetty-server:${jettyVersion}"
     compile "org.eclipse.jetty:jetty-servlet:${jettyVersion}"
+    compile "org.eclipse.jetty:jetty-servlets:${jettyVersion}"
 
     compile "org.glassfish.jersey.core:jersey-server:${jerseyVersion}"
     compile "org.glassfish.jersey.containers:jersey-container-servlet-core:${jerseyVersion}"
@@ -38,4 +44,8 @@ dependencies {
     runtime "javax.activation:javax.activation-api:+"
     runtime "jakarta.xml.bind:jakarta.xml.bind-api:2.3.2"
     runtime "org.glassfish.jaxb:jaxb-runtime:2.3.2"
+
+    // https://mvnrepository.com/artifact/com.thedeanda/lorem
+    implementation group: 'com.thedeanda', name: 'lorem', version: '2.1'
+
 }
