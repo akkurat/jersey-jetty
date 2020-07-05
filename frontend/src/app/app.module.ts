@@ -7,20 +7,28 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
+import {AppRoutingModule} from './app-routing.module';
+import { GameComponent } from './game/game.component';
+import { AdminComponent } from './admin/admin.component';
+import { RoomComponent } from './room/room.component'
 
 const MaterialModules = [
   MatSnackBarModule
 ]
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    GameComponent,
+    AdminComponent,
+    RoomComponent
   ],
   imports: [
-    BrowserModule,
+    BrowserModule.withServerTransition({ appId: 'serverApp' }),
     HttpClientModule,
     FormsModule,
     ...MaterialModules,
     BrowserAnimationsModule,
+    AppRoutingModule
   ],
   providers: [DefaultService],
   bootstrap: [AppComponent]
