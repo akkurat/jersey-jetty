@@ -23,6 +23,7 @@ public class Room {
     private String caption;
     private UUID uuid;
     private int players;
+    private Game game;
 
     public Room() {
         this( null, 4 );

@@ -1,0 +1,26 @@
+<web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+          http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+         version="3.0">
+    <servlet>
+        <servlet-name>Rest</servlet-name>
+        <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
+        <init-param>
+            <param-name>javax.ws.rs.Application</param-name>
+            <param-value>ch.taburett.tichu.server.JerseyConfig</param-value>
+        </init-param>
+    </servlet>
+    <display-name>Webapp1</display-name>
+    <servlet-mapping>
+        <servlet-name>Rest</servlet-name>
+        <url-pattern>/api/*</url-pattern>
+    </servlet-mapping>
+<!--    <servlet>-->
+<!--        <servlet-name>comingsoon</servlet-name>-->
+<!--        <servlet-class>ch.taburett.tichu.server.JerseyConfig</servlet-class>-->
+<!--    </servlet>-->
+<!--    <servlet-mapping>-->
+<!--        <servlet-name>comingsoon</servlet-name>-->
+<!--        <url-pattern>/api/*</url-pattern>-->
+<!--    </servlet-mapping>-->
+</web-app>

@@ -1,0 +1,36 @@
+<html>
+<head>
+</head>
+<body>
+<h1>Test</h1>
+<script>
+  var websocket;
+
+  document.addEventListener("DOMContentLoaded", () => {
+    document.getElementById("register").addEventListener("click", (ev) => {
+      websocket = new WebSocket("ws://localhost:8080/websockets/players");
+
+      websocket.onopen = function() {
+        websocket.send(JSON.stringify({jwt: "adsfasdfsfsfabs2341"}))
+        websocket.send("Player234")
+        websocket.send("Player23")
+        alert("SUCCESS: Registered!");
+      }
+      websocket.onmessage = function(evt) {
+        document.getElementById("marketprice").value = evt.data;
+      };
+      websocket.onclose = function() {
+        alert("SUCCESS: Unregistered!");
+      }
+    });
+
+    document.getElementById("unregister").click(function() {
+      websocket.close();
+    });
+  });
+</script>
+<button id="register">Connect to Server</button>
+<button id="unregister">DisConnect to Server</button>
+<input id="marketprice" />
+</body>
+</html>
